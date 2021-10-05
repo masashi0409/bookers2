@@ -24,8 +24,8 @@ class BooksController < ApplicationController
   end
 
   def show
-    @newBook = Book.new
-    @book = Book.find(params[:id])
+    @book = Book.new
+    @detailbook = Book.find(params[:id])
   end
 
   def edit
