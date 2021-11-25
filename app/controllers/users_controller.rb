@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     if @user == current_user
       render "edit"
     else
-      redirect_to books_path
+      redirect_to user_path(current_user.id)
     end
   end
 
@@ -26,7 +26,8 @@ class UsersController < ApplicationController
 
   def index
     @users = User.all
-    @newBook = Book.new
+    @book = Book.new
+    @user = current_user
   end
 
   private

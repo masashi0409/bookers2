@@ -1,19 +1,93 @@
 <div class="container">
   <div class="row">
+    <div class="col-lg-12">
+      <%= render 'layouts/notifications' %>
+    </div>
 
-    <div class="col-lg-4">
+<% if @detailbook.user != current_user
+  other_book = @detailbook
+  other_user = other_book.user
+ end %>
+
+    <div class="col-md-3">
+      <div>
+        <h3>User Info</h3>
+        <%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th>name</th>
+              <td>
+                <% if @detailbook.user == current_user %>
+                <%= @user.name %>
+                <% end %>
+                <% if @detailbook.user != current_user %>
+                <%= other_book.user.name %>
+                <% end %>
+              </td>
+            </tr>
+            <tr>
+              <th>introduction</th>
+              <td>
+                <% if @detailbook.user == current_user %>
+                <%= @user.introduction %>
+                <% end %>
+                <% if @detailbook.user != current_user %>
+                <%= other_book.user.introduction %>
+                <% end %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <% if @detailbook.user == current_user %>
+      <div>
+        <%=link_to edit_user_path(@user), class: "btn btn-outline-secondary btn-block" do %>
+        <i class="fas fa-user-cog"></i>edit
+        <% end %>
+      </div>
+      <% end %>
+      <% if @detailbook.user != current_user %>
+        <%=link_to edit_user_path(other_user), class: "btn btn-outline-secondary btn-block" do %>
+        <i class="fas fa-user-cog"></i>edit
+        <% end %>
+      <% end %>
       <%= render 'books/new' %>
     </div>
 
-    <div class="col-lg-8">
+    <div class="col-md-8 offset-md-1">
       <h3>Book detail</h3>
       <table class="table table-striped">
         <tbody>
             <tr>
+              <td>
+                <div>
+                  <% if @detailbook.user == current_user %>
+                  <%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %>
+                  <% end %>
+                  <% if @detailbook.user != current_user %>
+                  <%= attachment_image_tag other_book.user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %>
+                  <% end %>
+                </div>
+                <div>
+                  <% if @detailbook.user == current_user %>
+                    <%=link_to user_path(@user.id) do %>
+                      <%= @user.name %>
+                    <% end %>
+                  <% end %>
+                  <% if @detailbook.user != current_user %>
+                    <%=link_to user_path(other_book.user.id) do %>
+                      <%= other_book.user.name %>
+                    <% end %>
+                  <% end %>
+                </div>
+              </td>
               <td><%= @detailbook.title %></td>
               <td><%= @detailbook.body %></td>
+              <% if @detailbook.user == current_user %>
               <td><%=link_to "Edit", edit_book_path(@detailbook.id), class: "btn btn-success" %></td>
               <td><%=link_to "Destroy", book_path(@detailbook.id), method: :delete, class: "btn btn-danger " %></td>
+              <% end %>
             </tr>
         </tbody>
       </table>

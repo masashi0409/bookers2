@@ -18,11 +18,33 @@
     </div>
 
 
-    <div class="col-lg-4">
+    <div class="col-md-3">
+      <div>
+        <h3>User Info</h3>
+        <%= attachment_image_tag @user, :profile_image, :fill, 100, 100, format: 'jpeg', fallback: "no_image.jpg" %>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <th>name</th>
+              <td><%= @user.name %></td>
+            </tr>
+            <tr>
+              <th>introduction</th>
+              <td><%= @user.introduction %></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <%=link_to edit_user_path(@user), class: "btn btn-outline-secondary btn-block" do %>
+        <i class="fas fa-user-cog"></i>edit
+        <% end %>
+      </div>
+
       <%= render 'books/new' %>
     </div>
 
-    <div class="col-lg-8">
+    <div class="col-md-8 offset-md-1">
       <h3>Books</h3>
       <table class="table table-striped">
         <thead>
